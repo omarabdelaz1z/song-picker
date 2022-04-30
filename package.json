@@ -1,0 +1,47 @@
+{
+	"name": "song-picker",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./dist/index.js",
+	"scripts": {
+		"start": "node ./dist/index.js",
+		"build": "tsc",
+		"watch": "tsc-watch --noClear --onSuccess \"node -r dotenv/config ./dist/index.js\" --onFailure \"echo Oops!\"",
+		"lint:fix": "eslint --ext .ts ./src --config .eslintrc.json --fix",
+		"lint": "eslint --ext .ts ./src --config .eslintrc.json",
+		"pretty": "prettier --config .prettierrc --write \"./**/*.{ts,json}\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/omarabdelaz1z/song-picker.git"
+	},
+	"author": "omarabdelaziz",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/omarabdelaz1z/song-picker/issues"
+	},
+	"homepage": "https://github.com/omarabdelaz1z/song-picker#readme",
+	"dependencies": {
+		"dotenv": "^16.0.0",
+		"lru-cache": "^7.8.1",
+		"node-fetch": "^2.6.7",
+		"string-similarity": "^4.0.4",
+		"ytdl": "^1.4.1",
+		"ytdl-core": "^4.11.0"
+	},
+	"devDependencies": {
+		"@types/lru-cache": "^7.6.1",
+		"@types/node-fetch": "^2.6.1",
+		"@types/string-similarity": "^4.0.0",
+		"@typescript-eslint/eslint-plugin": "^5.21.0",
+		"@typescript-eslint/parser": "^5.21.0",
+		"eslint": "^8.14.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-airbnb-typescript": "^17.0.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.26.0",
+		"prettier": "^2.6.2",
+		"tsc-watch": "^5.0.3",
+		"typescript": "^4.6.3"
+	}
+}
