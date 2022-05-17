@@ -1,4 +1,8 @@
-import { Matcher, PickerStrategySelector } from "../../types/interfaces";
+import {
+	Matcher,
+	PickerStrategySelector,
+	StrategyConfig,
+} from "../../types/interfaces";
 import {
 	YOUTUBE_PLAYLIST_MATCHER,
 	YOUTUBE_SEARCH_SINGLE_MATCHER,
@@ -8,15 +12,15 @@ import { YoutubePlaylist, YoutubeTrack } from "../pickers/YoutubePicker";
 export default class YoutubeStrategySelector implements PickerStrategySelector {
 	private options: Matcher[];
 
-	constructor() {
+	constructor(config: StrategyConfig) {
 		this.options = [
 			{
 				matcher: YOUTUBE_PLAYLIST_MATCHER,
-				strategy: new YoutubePlaylist(),
+				strategy: new YoutubePlaylist({ ...config }),
 			},
 			{
 				matcher: YOUTUBE_SEARCH_SINGLE_MATCHER,
-				strategy: new YoutubeTrack(),
+				strategy: new YoutubeTrack({ ...config }),
 			},
 		];
 	}

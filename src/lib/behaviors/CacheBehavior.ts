@@ -1,16 +1,12 @@
 import LRUCache from "lru-cache";
 import stringSimilarity from "string-similarity";
-import { SINGLE_SYMBOL } from "../../utils/constants";
-
+import { SINGLE_SYMBOL, MATCH_THRESHOLD } from "../../utils/constants";
 import {
 	Key,
 	PlaylistRetriever,
 	Track,
 	TrackRetriever,
 } from "../../types/interfaces";
-
-const MATCH_THRESHOLD = 0.8;
-
 
 export default class CacheBehavior {
 	private tracks = new LRUCache<Key, Track>({

@@ -1,4 +1,4 @@
-import { PickerStrategySelector } from "../../types/interfaces";
+import { PickerStrategySelector, StrategyConfig, Matcher} from "../../types/interfaces";
 import {
 	SPOTIFY_ALBUM_MATCHER,
 	SPOTIFY_PLAYLIST_MATCHER,
@@ -12,21 +12,26 @@ import {
 } from "../pickers/SpotifyPicker";
 
 export default class SpotifyStrategySelector implements PickerStrategySelector {
-	private spotifyAuth: SpotifyAuth = new SpotifyAuth();
-	private options = [
-		{
-			matcher: SPOTIFY_PLAYLIST_MATCHER,
-			strategy: new SpotifyPlaylist(this.spotifyAuth),
-		},
-		{
-			matcher: SPOTIFY_ALBUM_MATCHER,
-			strategy: new SpotifyAlbum(this.spotifyAuth),
-		},
-		{
-			matcher: SPOTIFY_SINGLE_MATCHER,
-			strategy: new SpotifyTrack(this.spotifyAuth),
-		},
-	];
+	private spotifyAuth: SpotifyAuth;
+	private options: Matcher[];
+
+	constructor(config: StrategyConfig) {
+		this.spotifyAuth = new SpotifyAuth({ ...config });
+		this.options = [
+			{
+				matcher: SPOTIFY_PLAYLIST_MATCHER,
+				strategy: new SpotifyPlaylist(this.spotifyAuth),
+			},
+			{
+				matcher: SPOTIFY_ALBUM_MATCHER,
+				strategy: new SpotifyAlbum(this.spotifyAuth),
+			},
+			{
+				matcher: SPOTIFY_SINGLE_MATCHER,
+				strategy: new SpotifyTrack(this.spotifyAuth),
+			},
+		];
+	}
 
 	select = (url: string) => {
 		const selected = this.options.find((strategy) =>

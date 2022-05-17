@@ -17,3 +17,5 @@ export const LIST_SYMBOL = Symbol("list-retriever");
 
 export const SPOTIFY_API_AUTH_URL =
 	"https://accounts.spotify.com/api/token?grant_type=client_credentials";
+
+export const MATCH_THRESHOLD = 0.8;

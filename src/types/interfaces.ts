@@ -56,3 +56,7 @@ export interface PickerConfig {
 	SPOTIFY_SECRET: string;
 	YOUTUBE_COOKIE: string;
 }
+
+export interface StrategyConfig {
+	[key: string]: string;
+}

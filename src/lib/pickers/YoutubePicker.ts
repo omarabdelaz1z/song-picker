@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import {
 	Key,
 	PlaylistRetriever,
+	StrategyConfig,
 	Track,
 	TrackRetriever,
 } from "../../types/interfaces";
@@ -30,6 +31,10 @@ const filterYoutubeResponse = (response: string) => {
 
 export class YoutubeTrack implements TrackRetriever {
 	public type = SINGLE_SYMBOL;
+
+	constructor(private config: StrategyConfig) {
+		this.config = config;
+	}
 
 	public fetch = async (query: string) => {
 		const url = ytdl.validateURL(query) ? query : await this.getUrl(query);
@@ -71,7 +76,7 @@ export class YoutubeTrack implements TrackRetriever {
 			const info = await ytdl.getBasicInfo(url, {
 				requestOptions: {
 					headers: {
-						cookie: process.env.COOKIE,
+						cookie: this.config.YOUTUBE_COOKIE,
 					},
 				},
 			});
@@ -102,8 +107,12 @@ export class YoutubeTrack implements TrackRetriever {
 }
 
 export class YoutubePlaylist implements PlaylistRetriever {
-	private trackRetriever: YoutubeTrack = new YoutubeTrack();
+	private trackRetriever: YoutubeTrack;
 	public type = LIST_SYMBOL;
+
+	constructor(config: StrategyConfig) {
+		this.trackRetriever = new YoutubeTrack(config);
+	}
 
 	fetch = async (url: string) => {
 		const conformedUrl = this.conform(url);
@@ -136,7 +145,7 @@ export class YoutubePlaylist implements PlaylistRetriever {
 		const filteredItems = playlistItems.filter(
 			(item) => typeof item.playlistPanelVideoRenderer !== "undefined",
 		);
-		
+
 		const tracks = await Promise.all(
 			filteredItems.map((item) => this.parseItem(item)),
 		);

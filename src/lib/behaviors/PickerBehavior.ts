@@ -1,14 +1,18 @@
 import CacheBehavior from "./CacheBehavior";
 import { SpotifyStrategy, YoutubeStrategy } from "../strategies";
+import { PickerConfig, PickerStrategySelector } from "../../types/interfaces";
 
 export default class SongPicker {
 	private cache = new CacheBehavior();
-	private strategies = [new SpotifyStrategy(), new YoutubeStrategy()];
+	private strategies: PickerStrategySelector[];
 
-	/**
-	 *
-	 * @throws
-	 */
+	constructor(config: PickerConfig) {
+		this.strategies = [
+			new SpotifyStrategy({ ...config }),
+			new YoutubeStrategy({ ...config }),
+		];
+	}
+
 	public fetch = async (url: string) => {
 		const strategy = this.determineStrategy(url);
 		const key = strategy.generateKey(url);

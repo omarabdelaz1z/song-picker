@@ -1,6 +1,7 @@
 import fetch, { RequestInit } from "node-fetch";
 import {
 	PlaylistRetriever,
+	StrategyConfig,
 	Track,
 	TrackRetriever,
 } from "../../types/interfaces";
@@ -40,7 +41,10 @@ export class SpotifyAuth {
 	private auth: SpotifyAuthResponse;
 	private timestamp: number;
 
-	
+	constructor(private config: StrategyConfig) {
+		this.config = config;
+	}
+
 	public getAuth = async (): Promise<SpotifyAuthResponse> => {
 		const timestamp: number = new Date().getTime();
 
@@ -54,17 +58,13 @@ export class SpotifyAuth {
 		return this.auth;
 	};
 
-	/**
-	 *
-	 * @throws
-	 */
 	private fetchAuth = async (): Promise<SpotifyAuthResponse> => {
 		const options: RequestInit = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
 				Authorization: `Basic ${Buffer.from(
-					`${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`,
+					`${this.config.SPOTIFY_ID}:${this.config.SPOTIFY_SECRET}`,
 				).toString("base64")}`,
 			},
 		};
